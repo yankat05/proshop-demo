@@ -5,6 +5,10 @@ node_modules
 /.pnp
 .pnp.js
 
+#for me
+reduxExplaination.js
+explainationJsonWebToken.js
+
 # testing
 /coverage
 
