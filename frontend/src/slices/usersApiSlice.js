@@ -22,7 +22,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${USERS_URL}/logout`,
         method: 'POST',
-      })
+      }),
+    }),
+    profile: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/profile`,
+        method: `PUT`,
+        body: data,
+      }),
     })
   }),
 });
@@ -31,4 +38,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 
 // the name of the query is getProducts but to export this , we need to use, useGetProductsQuery
 // now we should be able to dispatch this login action from our login screen
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation } = usersApiSlice;
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation,useProfileMutation } = usersApiSlice;

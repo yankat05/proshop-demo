@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import {Badge ,Navbar , Nav, Container, NavDropdown} from 'react-bootstrap';
+import {Badge ,Navbar , Nav, Container, NavDropdown, NavLink} from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/usersApiSlice';
-import { logout } from '../slices/authSlice'
-import logo from '../assets/logo.png'
+import { logout } from '../slices/authSlice';
+import logo from '../assets/logo.png';
 
 // you can use useSelecter to select something from the state
 
@@ -52,7 +53,7 @@ const Header = () => {
               </Nav.Link>
               { userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
-                  <Nav.Link href='/profile'>
+                  <Nav.Link  href='/profile'>
                   <NavDropdown.Item>
                       Profile
                   </NavDropdown.Item>
@@ -66,6 +67,25 @@ const Header = () => {
                 <FaUser />
                  Sign In 
                 </Nav.Link>) }
+                {userInfo && userInfo.isAdmin && (
+                  <NavDropdown title="Admin" id="adminmenu">
+                    <NavLink href='/admin/productlist'>
+                    <NavDropdown.Item>
+                      Products
+                    </NavDropdown.Item>
+                    </NavLink>
+                    <NavLink href='/admin/userlist'>
+                    <NavDropdown.Item>
+                      Users
+                    </NavDropdown.Item>
+                    </NavLink>
+                    <NavLink href='/admin/orderlist'>
+                    <NavDropdown.Item>
+                      Orders
+                    </NavDropdown.Item>
+                    </NavLink>
+                  </NavDropdown>
+                )}
               
             </Nav>
           </Navbar.Collapse>

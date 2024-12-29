@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import { getProducts, getProductById } from '../controllers/productController.js';
+import { getProducts, getProductById, createProduct } from '../controllers/productController.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 
 // we're gonna link /api/products from server.js to this file
 
@@ -25,7 +26,7 @@ import { getProducts, getProductById } from '../controllers/productController.js
 // if the product is not found , we use res.status to give the status then we use  .json or .send to send the response
 
 // on '/' , if you use get , it should do something for ex getting data by calling getProducts
-router.route('/').get(getProducts);
+router.route('/').get(getProducts).post(protect, admin, createProduct);
 router.route('/:id').get(getProductById);
 
 export default router;
