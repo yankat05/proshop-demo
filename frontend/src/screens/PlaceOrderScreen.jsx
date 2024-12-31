@@ -46,8 +46,10 @@ const PlaceOrderScreen = () => {
       navigate(`/order/${res._id}`);
     } catch (error) {
       toast.error(error);
+      console.log(error)
     }
   }
+
 
   return (
     <>
@@ -133,7 +135,7 @@ const PlaceOrderScreen = () => {
                 </Row>
               </ListGroup.Item>
 
-              { error && <Message variant='danger'>{error}</Message> }
+              { error && <Message variant='danger'>{`${error}`}</Message> }
 
               <ListGroup.Item>
                 <Button

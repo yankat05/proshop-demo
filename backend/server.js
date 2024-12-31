@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -8,6 +9,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import cors from 'cors';
+import uploadRoutes from './routes/uploadRoutes.js';
 const port = process.env.PORT;
 
 connectDB(); // Connect to MongoDB
@@ -34,10 +36,18 @@ app.get('/', (req, res) => {
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/upload', uploadRoutes);
 // we're gonna put paypal route to our backend 
 // this is really important , we're gonna send our clientId from our backend, not frontend cause we don't want people to see it.
 app.get('/api/config/paypal', (req, res)=> res.send({ clientId: process.env.PAYPAL_CLIENT_ID }))
 // after storing the clientId to our env file, we then create a route so paypal can then get that client.
+
+// Make uploads folder static
+const __dirname = path.resolve(); // Set __dirname to current directory
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+// the first argument is the filename, and then we make it static by specifying the location of that folder
+
+console.log(path.join(__dirname, '/uploads'))
 
 // we're gonna use here errorHandler
 app.use(notFound);

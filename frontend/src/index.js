@@ -28,6 +28,9 @@ import OrderScreen from './screens/OrderScreen.jsx';
 import ProfileScreen from './screens/ProfileScreen.jsx';
 import OrderListScreen from './screens/admin/OrderListScreen.jsx';
 import ProductListScreen from './screens/admin/ProductListScreen.jsx';
+import ProductEditScreen from './screens/admin/ProductEditScreen.jsx';
+import UserListScreen from './screens/admin/UserListScreen';
+import UserEditScreen from './screens/admin/UserEditScreen';
 
 
 const router = createBrowserRouter(
@@ -52,6 +55,9 @@ const router = createBrowserRouter(
         {/* anything we want private will come into here we put here because it's part of checout process */}
         <Route path='/admin/orderlist' element={<OrderListScreen />}/>
         <Route path='/admin/productlist' element={<ProductListScreen />}/>
+        <Route path='/admin/product/:id/edit' element={<ProductEditScreen />}/>
+        <Route path='/admin/userlist' element={<UserListScreen />}/>
+        <Route path='/admin/user/:id/edit' element={<UserEditScreen />}/>
       </Route>
      </Route>
   )
