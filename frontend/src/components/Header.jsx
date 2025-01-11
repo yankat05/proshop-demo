@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import {Badge ,Navbar , Nav, Container, NavDropdown, NavLink} from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
+import SearchBox from './SearchBox';
 import logo from '../assets/logo.png';
 
 // you can use useSelecter to select something from the state
@@ -42,6 +42,7 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav'></Navbar.Toggle>
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
+              <SearchBox />
               <Nav.Link href='/cart'><FaShoppingCart /> Cart 
               {
                 cartItems.length > 0 && (

@@ -6,11 +6,32 @@ import Product from "../models/productModel.js";
 // @access  Public
 
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
-  res.json(products);
+  // adding a page size 
+  const pageSize = process.env.PAGINATION_LIMIT;
+  // we're setting page to the pageNumber that's in the url
+  const page = Number(req.query.pageNumber) || 1;
+  // we need to get the total number of page, Product.countDocuments() ; it'll give the total number of products
+
+  // using regular expression to match the keyword
+  // $options: 'i'; will make it case insensitive
+  // that will limit the count
+  const keyword = req.query.keyword ? { name: { $regex: req.query.keyword, $options: 'i' } } : {};
+
+  // it'll only match if it matches that keyword.
+  const count = await Product.countDocuments({ ...keyword });
+  
+  
+
+  // we want to find product with that keyword if there is a keyword.
+  const products = await Product.find({ ...keyword })
+  .limit(pageSize) // it'll only get two
+  .skip(pageSize * (page - 1));
+  // if we're on the second page , we want to skip the products that are on the first page.
+  // res.json(products);
+  res.json({products, page, pages: Math.ceil(count / pageSize)});
 });
 
-// @desc    Fetch a products
+// @desc    Fetch a product
 // @route   GET /api/products/:id
 // @access  Public
 
@@ -134,4 +155,14 @@ const createProductReview = asyncHandler(async (req, res) => {
 });
 
 
-export { getProducts , getProductById, createProduct, updateProduct, deleteProduct, createProductReview };
+// @desc    Get top rated products
+// @route   GET /api/products/top
+// @access  Public
+
+const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  res.status(200).json(products);
+});
+
+
+export { getProducts , getProductById, createProduct, updateProduct, deleteProduct, createProductReview, getTopProducts };

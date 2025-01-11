@@ -29,9 +29,7 @@ app.use(cookieParser());
 
 // that above will allos us to access request.cookies.jwt
 
-app.get('/', (req, res) => {
-  res.send('API is running...');
-});
+
 // middlewares
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
@@ -48,6 +46,22 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 // the first argument is the filename, and then we make it static by specifying the location of that folder
 
 console.log(path.join(__dirname, '/uploads'))
+
+// we check to see if we're on development mode or production
+
+if (process.env.NODE_ENV === 'production') {
+  // set static folder
+  app.use(express.static(path.join(__dirname, '/frontend/build')));
+
+  // any route that is not api will be redirected to index.html
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running...');
+  });
+}
 
 // we're gonna use here errorHandler
 app.use(notFound);
