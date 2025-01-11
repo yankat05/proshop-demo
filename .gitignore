@@ -8,7 +8,6 @@ node_modules
 #for me
 reduxExplaination.js
 explainationJsonWebToken.js
-/.vscode
 
 # testing
 /coverage
